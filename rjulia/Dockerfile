@@ -2,10 +2,19 @@ FROM gipert/root-cern:latest
 
 USER root
 
-RUN yum-config-manager --add-repo https://copr.fedorainfracloud.org/coprs/nalimilan/julia/repo/epel-7/nalimilan-julia-epel-7.repo && \
-    yum install -y libedit-devel julia
+RUN yum install -y -q libedit-devel arpack atlas dsFMT http-parser \
+                      llvm3.9-libs openblas-threads openlibm openspecfun \
+                      pcre2 suitesparse tbb && \
+    yum -q clean all
 
-ENV JULIA_CXX_RTTI 1
+RUN mkdir -p /scif/julia && \
+    wget -O- -q https://julialang-s3.julialang.org/bin/linux/x64/0.6/julia-0.6.2-linux-x86_64.tar.gz \
+    | tar --strip-components=1 -x -z -f - -C "/scif/julia"
+
+ENV PATH            "$PATH:/scif/julia/bin" \
+    LD_LIBRARY_PATH "$LD_LIBRARY_PATH:/scif/julia/lib" \
+    MANPATH         "$MANPATH:/scif/julia/share/man" \
+    JULIA_CXX_RTTI  "1"
 
 RUN julia -e 'Pkg.add("Cxx")' && \
     julia -e 'Pkg.build("Cxx")'
@@ -13,4 +22,5 @@ RUN julia -e 'Pkg.add("Cxx")' && \
 RUN julia -e 'Pkg.add("ROOT")' && \
     julia -e 'Pkg.build("ROOT")'
 
-CMD julia
+WORKDIR /data
+CMD /root/.julia/v0.6/ROOT/deps/usr/bin/julia
