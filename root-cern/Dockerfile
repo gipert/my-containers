@@ -24,7 +24,6 @@ RUN cmake -DCMAKE_INSTALL_PREFIX="/scif/root" \
           -Dminuit2=ON \
           -Dhttp=ON \
           -Dgdml=ON \
-          -Dfail-on-missing=ON \
           /tmp/src && \
     cmake --build . - --j"$(nproc)" && \
     make install
