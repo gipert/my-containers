@@ -2,9 +2,9 @@ FROM gipert/root-cern:latest
 
 USER root
 
-RUN yum install -y -q libedit-devel arpack atlas dsFMT http-parser \
-                      llvm3.9-libs openblas-threads openlibm openspecfun \
-                      pcre2 suitesparse tbb && \
+RUN yum install -y -q libedit-devel http-parser ncurses-devel \
+                      llvm3.9-libs openlibm utf8proc-devel libgit2-devel\
+                      pcre2 tbb openssl-devel && \
     yum -q clean all
 
 RUN mkdir -p /scif/julia && \
