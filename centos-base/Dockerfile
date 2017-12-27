@@ -5,7 +5,7 @@ USER root
 RUN yum -y -q update && \
     yum install -y -q epel-release deltarpm && \
     yum install -y -q zsh wget ImageMagick vim htop cmake3 && \
-    yum groupinstall -y -q "Development Tools"
+    yum groupinstall -y -q "Development Tools" && \
     yum -q clean all && \
     ln -s /usr/bin/cmake3 usr/bin/cmake
 
