@@ -1,4 +1,4 @@
-FROM gipert/base:latest
+FROM gipert/centos-base:latest
 
 USER root
 WORKDIR /tmp
