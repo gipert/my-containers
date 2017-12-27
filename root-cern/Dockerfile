@@ -25,7 +25,7 @@ RUN cmake -DCMAKE_INSTALL_PREFIX="/scif/root" \
           -Dhttp=ON \
           -Dgdml=ON \
           /tmp/src && \
-    cmake --build . - --j"$(nproc)" && \
+    cmake --build . -- -j"$(nproc)" && \
     make install
 
 ENV ROOTSYS         "/scif/root" \
