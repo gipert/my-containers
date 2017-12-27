@@ -9,7 +9,7 @@ RUN yum install -y xorg-x11-fonts-Type1 fftw-devel libXmu-devel \
                    mesa-libGLU-devel gsl-devel python-devel graphviz-devel \
                    libjpeg-devel libpng-devel giflib-devel libtiff-devel \ 
                    libxml2-devel openssl-devel fttw-devel && \
-    yum -q clean all && \
+    yum -q clean all
 
 RUN mkdir -p /tmp/src /tmp/build /scif/root && \
    wget -O- -q https://root.cern.ch/download/root_v6.10.08.source.tar.gz \
