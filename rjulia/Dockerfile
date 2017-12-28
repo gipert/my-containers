@@ -16,11 +16,14 @@ ENV PATH="$PATH:/scif/julia/bin" \
     MANPATH="$MANPATH:/scif/julia/share/man" \
     JULIA_CXX_RTTI="1"
 
-RUN julia -e 'Pkg.add("Cxx")' && \
+RUN julia -e 'Pkg.clone("Cxx")' && \
+    cd /root/.julia/v0.6/Cxx && git checkout tags/v0.2.0 && \
+    wget -O- -q https://baltig.infn.it/gerda/baseos-binaries/raw/master/llvm-3.9.1-centos7.tar.gz \
+    | tar --strip-components=1 -x -z -f - -C "/root/.julia/v0.6/Cxx/deps" && \
+    julia -e 'Pkg.add("Compat")' && \
     julia -e 'Pkg.build("Cxx")'
 
-RUN julia -e 'Pkg.add("ROOT")' && \
-    julia -e 'Pkg.build("ROOT")'
+RUN julia -e 'Pkg.add("ROOT")'
 
 WORKDIR /data
 CMD /root/.julia/v0.6/ROOT/deps/usr/bin/julia
