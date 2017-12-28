@@ -11,28 +11,33 @@ RUN yum install -y xorg-x11-fonts-Type1 fftw-devel libXmu-devel \
                    libxml2-devel openssl-devel fttw-devel && \
     yum -q clean all
 
-RUN mkdir -p /tmp/src /tmp/build /scif/root && \
-   wget -O- -q https://root.cern.ch/download/root_v6.10.08.source.tar.gz \
-   | tar --strip-components 1 -xz -C "/tmp/src"
+RUN mkdir -p /scif/root && \
+    wget -q -O- https://baltig.infn.it/gerda/baseos-binaries/raw/master/root-6.06.08-centos7.tar.gz \
+    | tar --strip-components 1 -xz -C "/scif/root"
 
-WORKDIR /tmp/build
-RUN cmake -DCMAKE_INSTALL_PREFIX="/scif/root" \
-          -Dx11=ON \
-          -Dunuran=ON \
-          -Dtable=ON \
-          -Droofit=ON \
-          -Dminuit2=ON \
-          -Dhttp=ON \
-          -Dgdml=ON \
-          /tmp/src && \
-    cmake --build . -- -j"$(nproc)" && \
-    make install
+#RUN mkdir -p /tmp/src /tmp/build /scif/root && \
+#   wget -O- -q https://root.cern.ch/download/root_v6.10.08.source.tar.gz \
+#   | tar --strip-components 1 -xz -C "/tmp/src"
+#
+#WORKDIR /tmp/build
+#
+#RUN cmake -DCMAKE_INSTALL_PREFIX="/scif/root" \
+#          -Dx11=ON \
+#          -Dunuran=ON \
+#          -Dtable=ON \
+#          -Droofit=ON \
+#          -Dminuit2=ON \
+#          -Dhttp=ON \
+#          -Dgdml=ON \
+#          /tmp/src && \
+#    cmake --build . -- -j"$(nproc)" && \
+#    make install
 
-ENV ROOTSYS         "/scif/root" \
-    PATH            "$ROOTSYS/bin:$PATH" \
-    LD_LIBRARY_PATH "$ROOTSYS/lib:$LD_LIBRARY_PATH" \
-    MANPATH         "$ROOTSYS/man:$MANPATH" \
-    PYTHONPATH      "$ROOTSYS/lib:$PYTHONPATH"
+ENV ROOTSYS="/scif/root" \
+    PATH="$ROOTSYS/bin:$PATH" \
+    LD_LIBRARY_PATH="$ROOTSYS/lib:$LD_LIBRARY_PATH" \
+    MANPATH="$ROOTSYS/man:$MANPATH" \
+    PYTHONPATH="$ROOTSYS/lib:$PYTHONPATH"
 
 WORKDIR /data
 CMD /scif/root/bin/root
