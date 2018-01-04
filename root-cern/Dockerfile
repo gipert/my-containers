@@ -3,12 +3,12 @@ FROM gipert/centos-base:latest
 USER root
 WORKDIR /tmp
 
-RUN yum install -y xorg-x11-fonts-Type1 fftw-devel libXmu-devel \
-                   libXi-devel libX11-devel libXext-devel \
-                   libXft-devel libXpm-devel libzip-devel \
-                   mesa-libGLU-devel gsl-devel python-devel graphviz-devel \
-                   libjpeg-devel libpng-devel giflib-devel libtiff-devel \ 
-                   libxml2-devel openssl-devel fttw-devel && \
+RUN yum install -y -q xorg-x11-fonts-Type1 fftw-devel libXmu-devel \
+                      libXi-devel libX11-devel libXext-devel \
+                      libXft-devel libXpm-devel libzip-devel \
+                      mesa-libGLU-devel gsl-devel python-devel graphviz-devel \
+                      libjpeg-devel libpng-devel giflib-devel libtiff-devel \ 
+                      libxml2-devel openssl-devel fttw-devel && \
     yum -q clean all
 
 RUN mkdir -p /scif/root && \
@@ -34,10 +34,10 @@ RUN mkdir -p /scif/root && \
 #    make install
 
 ENV ROOTSYS="/scif/root" \
-    PATH="$ROOTSYS/bin:$PATH" \
-    LD_LIBRARY_PATH="$ROOTSYS/lib:$LD_LIBRARY_PATH" \
-    MANPATH="$ROOTSYS/man:$MANPATH" \
-    PYTHONPATH="$ROOTSYS/lib:$PYTHONPATH"
+    PATH="/scif/root/bin:$PATH" \
+    LD_LIBRARY_PATH="/scif/root/lib:$LD_LIBRARY_PATH" \
+    MANPATH="/scif/root/man:$MANPATH" \
+    PYTHONPATH="/scif/root/lib:$PYTHONPATH"
 
 WORKDIR /data
 CMD /scif/root/bin/root
