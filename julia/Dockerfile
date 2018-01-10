@@ -8,7 +8,7 @@ RUN yum install -y -q libedit-devel ncurses-devel \
 
 WORKDIR /scif
 RUN mkdir -p /scif/julia/pkgs && \
-    wget -q -O- https://baltig.infn.it/gerda/baseos-binaries/raw/master/julia-0.6.0-centos7-x86_64.tar.gz \
+    wget -q -O- https://baltig.infn.it/gerda/baseos-binaries/raw/master/julia-0.6.2-centos7-x86_64.tar.gz \
     | tar --strip-components 1 -xz -C "/scif/julia"
 
 #WORKDIR /scif/julia
