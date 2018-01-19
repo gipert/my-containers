@@ -26,8 +26,7 @@ ENV ROOTSYS="/scif/root" \
 
 RUN julia -e 'Pkg.add("Cxx"); Pkg.add("ROOT")' && \
     julia -e 'using Cxx' && \
-    mv /root/.julia/v0.6/ROOT/deps/usr/bin/julia /root/.julia/v0.6/ROOT/deps/usr/bin/rjulia
-
+    mv /scif/julia/pkgs/v0.6/ROOT/deps/usr/bin/julia /scif/julia/usr/bin/rjulia
 
 WORKDIR /data
 CMD rjulia

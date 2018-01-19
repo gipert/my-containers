@@ -7,14 +7,15 @@ RUN yum install -y -q libedit-devel ncurses-devel \
     yum -q clean all
 
 WORKDIR /scif
-RUN mkdir -p /scif/julia && \
-    wget -q -O- https://baltig.infn.it/gerda/baseos-binaries/raw/master/julia-0.6.0-centos7.tar.gz \
+RUN mkdir -p /scif/julia/pkgs && \
+    wget -q -O- https://baltig.infn.it/gerda/baseos-binaries/raw/master/julia-0.6.2-centos7-x86_64.tar.gz \
     | tar --strip-components 1 -xz -C "/scif/julia"
 
 #WORKDIR /scif/julia
 #RUN git clone https://github.com/JuliaLang/julia.git src && \
-#    cd src && git checkout v0.6.0 && \
+#    cd src && git checkout v0.6.2 && \
 #    echo "BUILD_LLVM_CLANG=1" >> Make.user && \
+#    export MARCH=core2 && \
 #    time make -j"$(nproc)"
 #
 #WORKDIR /scif/julia/src
@@ -36,7 +37,10 @@ RUN mkdir -p /scif/julia && \
 ENV PATH="$PATH:/scif/julia/usr/bin" \
     LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/lib64:/scif/julia/usr/lib" \
     MANPATH="$MANPATH:/scif/julia/usr/share/man" \
-    JULIA_HOME="/scif/julia/usr/bin"
+    JULIA_HOME="/scif/julia/usr/bin" \
+    JULIA_PKGDIR="/scif/julia/pkgs"
+
+RUN julia -e 'Pkg.init()'
 
 WORKDIR /data
 CMD /scif/julia/usr/bin/julia
