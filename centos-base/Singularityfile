@@ -1,2 +1,2 @@
 Bootstrap:docker
-From:gipert/centos-base:latest
+From:gipert/centos-base:latest 
