@@ -1,7 +1,7 @@
 FROM centos:7
 
 RUN yum -q -y update && \
-    yum -q install -y curl make ruby sudo which && \
+    yum -q install -y zsh curl make ruby sudo which && \
     yum -q clean all
 
 RUN localedef -i en_US -f UTF-8 en_US.UTF-8 \
