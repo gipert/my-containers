@@ -1,4 +1,4 @@
-# dockerfiles [![Docker Automated build](https://img.shields.io/docker/automated/gipert/baseos-containers.svg)](https://hub.docker.com/r/gipert/baseos-containers)
+# dockerfiles
 
 | image | build status |
 | ----- | ------------ |
