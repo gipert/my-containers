@@ -1,2 +1,2 @@
 Bootstrap:docker
-From:gipert/julia:latest
+From:gipert/lsyncd:latest
