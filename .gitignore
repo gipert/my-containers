@@ -1,2 +1,5 @@
+*.simg
+*.img
+*.sqsh
 *.DS_Store
 *.swp

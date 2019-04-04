@@ -1,0 +1,58 @@
+#!/bin/bash
+
+# saner programming env: these switches turn some bugs into errors
+set -o errexit -o pipefail -o noclobber -o nounset
+
+! PARSED=$(getopt --options="l:h" --longoptions="logging:help" --name "$0" -- "$@")
+if [ ${PIPESTATUS[0]} != 0 ]; then
+    # e.g. return value is 1
+    # then getopt has complained about wrong arguments to stdout
+    exit 2
+fi
+
+eval set -- "$PARSED"
+
+level="normal"
+
+while true; do
+    case "$1" in
+        -h|--help)
+            echo "USAGE: notifier [-h|--help] [-l|--logging log-level] \"message\""
+            exit 0
+            ;;
+        -l|--logging)
+            level="$2"
+            shift 2
+            ;;
+        --)
+            shift
+            break
+            ;;
+        *)
+            echo "ERROR: argument parsing error"
+            exit 3
+            ;;
+    esac
+done
+
+# handle non-option arguments
+if [ $# != 1 ]; then
+    echo "ERROR: A single string is required."
+    exit 4
+fi
+
+if [ "$level" == "error" ]; then
+    telegram-send -g --format markdown "\`$(cat /etc/hostname)\` *[ERROR]*
+
+$@"
+elif [ "$level" == "warning" ]; then
+    telegram-send -g --format markdown "\`$(cat /etc/hostname)\` *[WARNING]*
+
+$@"
+elif [ "$level" == "normal" ]; then
+    telegram-send -g --format markdown "\`$(cat /etc/hostname)\`
+
+$@"
+else
+    echo "ERROR: '$level' logging level not supported"
+fi
