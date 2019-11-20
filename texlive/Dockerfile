@@ -3,6 +3,6 @@ FROM gipert/archlinux-base:latest
 USER root
 
 RUN pacman -Syu --noconfirm \
- && pacman -S --noconfirm zsh vim htop texlive-most
+ && pacman -S --noconfirm texlive-most
 
 CMD zsh
