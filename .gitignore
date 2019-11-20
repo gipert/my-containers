@@ -3,3 +3,5 @@
 *.sqsh
 *.DS_Store
 *.swp
+
+/gerda-tgsend/telegram-send.conf
