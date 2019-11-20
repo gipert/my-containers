@@ -42,11 +42,11 @@ if [ $# != 1 ]; then
 fi
 
 if [ "$level" == "error" ]; then
-    telegram-send -g --format markdown "\`$(cat /etc/hostname)\` *[ERROR]* $@"
+    telegram-send -g --format markdown "\`[$(cat /etc/hostname)]\` *[ERROR]* $@"
 elif [ "$level" == "warning" ]; then
-    telegram-send -g --format markdown "\`$(cat /etc/hostname)\` *[WARNING]* $@"
+    telegram-send -g --format markdown "\`[$(cat /etc/hostname)]\` *[WARNING]* $@"
 elif [ "$level" == "normal" ]; then
-    telegram-send -g --format markdown "\`$(cat /etc/hostname)\` *[INFO]* $@"
+    telegram-send -g --format markdown "\`[$(cat /etc/hostname)]\` *[INFO]* $@"
 else
     echo "ERROR: '$level' logging level not supported"
 fi
