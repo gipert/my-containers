@@ -1,10 +1,13 @@
 FROM gipert/archlinux-base:latest
 
-USER root
-
 RUN pacman -Syu --noconfirm \
- && pacman -S --noconfirm ghostscript zathura texlive-most asymptote
+ && pacman -S --noconfirm texlive-most
 
-ENV ASYMPTOTE_PDFVIEWER="zathura"
+COPY asymptote.PKGBUILD /opt/src/PKGBUILD
+
+RUN cd /opt/src && source ./PKGBUILD && \
+    pacman -S --noconfirm --needed --asdeps \
+      "${makedepends[@]}" "${depends[@]}" wget base-devel && \
+    prepare && build && check && package
 
 CMD zsh
